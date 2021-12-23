@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.jotapcinfo.entities.User;
+import com.jotapcinfo.dto.UserDTO;
+import com.jotapcinfo.dto.UserInsertDTO;
 import com.jotapcinfo.services.UserService;
 import com.jotapcinfo.services.exceptions.ServiceException;
 
@@ -24,15 +25,15 @@ public class UserController {
 	private UserService userService;
 
 	@GetMapping
-	public ResponseEntity<List<User>> findAll() {
-		List<User> list = userService.findAll();
+	public ResponseEntity<List<UserDTO>> findAll() {
+		List<UserDTO> list = userService.findAll();
 		return ResponseEntity.ok(list);
 	}
 
 	@PostMapping
-	public ResponseEntity<User> insert(@RequestBody User obj) {
+	public ResponseEntity<UserDTO> insert(@RequestBody UserInsertDTO dto) {
 		try {
-			obj = userService.insert(obj);
+			UserDTO obj = userService.insert(dto);
 
 			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}") // Retornar o caminho do objeto inserido
 					.buildAndExpand(obj.getId()).toUri();
